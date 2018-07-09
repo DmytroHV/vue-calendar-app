@@ -19,10 +19,9 @@ export const store = {
   },
   editEvent(dayId, eventDetails) {
     this.resetEditofAllEvents();
-    const day = this.state.seedData.find(day => day.id === dayId);
-    const event = day.events.find(event => event.details === eventDetails);
+    const eventObj = this.getEventObj(dayId, eventDetails);
 
-    event.edit = true;
+    eventObj.edit = true;
   },
   resetEditofAllEvents() {
     this.state.seedData.map(day => {
@@ -30,5 +29,16 @@ export const store = {
         event.edit = false;
       });
     });
+  },
+  updateEvent(dayId, originalEventDetails, newEventDetails) {
+    const eventObj = this.getEventObj(dayId, originalEventDetails);
+
+    eventObj.details = newEventDetails;
+    eventObj.edit = false;
+  },
+  getEventObj(dayId, eventDetails) {
+    const dayObj = this.state.seedData.find(day => day.id === dayId);
+
+    return dayObj.events.find(event => event.details === eventDetails);
   }
 };
